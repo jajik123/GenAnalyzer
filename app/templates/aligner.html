@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GenAnalyzer</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/images/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="../static/images/favicon.ico">
+
+    <link rel="stylesheet" href="../static/css/normalize.css">
+    <link rel="stylesheet" href="../static/css/main_styles.css">
+    <link rel="stylesheet" href="../static/css/style_aligner.css">
+
+    <script src="../static/js/d3.v7.min.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h1>
+                <a href="/">GenAnalyzer</a>
+            </h1>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-link">Tools</a>
+                    <div class="dropdown-content">
+                        <a href="/analyse">Protein Analyzer</a>
+                        <a href="/aligner">Advanced Aligner</a>
+                    </div>
+                </div>
+                <a href="/about">About</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <h2>Advanced Sequence Aligner</h2>
+        <p>This tool allows you to input two sequences and align them using the <code>Bio.Align.PairwiseAligner</code>
+            class from the <code>Biopython</code> library, which is also used in the Protein Analyzer tool of the
+            GenAnalyzer web app.</p>
+        <p>Modify alignment parameters and observe how the results change, helping you understand the principles behind
+            sequence comparison. You have complete control over the alignment process, with no need for programming
+            knowledge.</p>
+        <p>Whether you're working with DNA, RNA, or protein sequences, this tool helps you analyze similarities and
+            differences with precision. </p>
+
+        <form id="alignerForm" method="POST" action="/aligner">
+            <fieldset>
+                <legend>Enter two sequences you want to align:</legend>
+                <span class="small-text">(Enter either a nucleotide or an amino acid sequence.)</span><br>
+                <label for="inputSequence1" class="visually-hidden">Sequence 1:</label>
+                <textarea id="inputSequence1"
+                    placeholder="Paste your first sequence here in FASTA format or as a raw sequence..." rows="4"
+                    cols="50"></textarea>
+                <label for="inputSequence2" class="visually-hidden">Sequence 2:</label>
+                <textarea id="inputSequence2"
+                    placeholder="Paste your second sequence here in FASTA format or as a raw sequence..." rows="4"
+                    cols="50"></textarea>
+            </fieldset>
+            <fieldset id="parameters">
+                <legend>Change the alignment parameters:
+                </legend>
+                <span class="small-text">(These parameters are set to match those used in the Protein Analyzer tool.
+                    Feel free to adjust them as needed to explore different alignment results.)</span>
+                <br>
+
+                <label for="mode">mode =</label>
+                <select id="mode" name="mode" required>
+                    <option value="global" selected>global</option>
+                    <option value="local">local</option>
+                    <option value="fogsaa">fogsaa</option>
+                </select>
+                <div class="info-container">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                        <path stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <div class="info">
+                        <p>The alignment <strong>mode</strong> can be set to:</p>
+                        <ul>
+                            <li><strong>global</strong> - aligns the entire length of both
+                                sequences</li>
+                            <li><strong>local</strong> - finds the best local subsequence
+                                alignment between the two sequences</li>
+                            <li><strong>fogsaa</strong> - uses the <em>Fast Optimal Global Alignment Algorithm</em>,
+                                which is faster for long alignments between similar sequences but relies on heuristics
+                                and assumptions about match, mismatch, and gap scores.</li>
+                        </ul>
+
+                        <p>The choice of alignment mode affects how sequences are aligned, whether the entire sequence
+                            (global) or only optimal subsequences (local) are considered.</p>
+                    </div>
+                </div><br>
+
+                <label for="match_score">match_score = </label>
+                <input type="number" id="match_score" name="match_score" value="2" min="1" step="1" required>
+                <div class="info-container">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                        <path stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <div class="info">
+                        <p><strong>match_score</strong> sets the score for matching bases or residues in the alignment.
+                        </p>
+                        <p>Higher values encourage more matches, making alignments with more matching residues
+                            preferred. It must always be a positive number.</p>
+                    </div>
+                </div><br>
+
+                <label for="mismatch_score">mismatch_score = </label>
+                <input type="number" id="mismatch_score" name="mismatch_score" value="-1" step="1" required>
+                <div class="info-container">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                        <path stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <div class="info">
+                        <p><strong>mismatch_score</strong> sets the penalty score for aligning different bases or
+                            residues.</p>
+                        <p>Lower values (more negative) discourage mismatches, while higher values allow more mismatches
+                            in the alignment. It is usually a negative number.</p>
+                    </div>
+                </div><br>
+
+                <label for="open_gap_score">open_gap_score = </label>
+                <input type="number" id="open_gap_score" name="open_gap_score" value="-5" step="1" required>
+                <div class="info-container">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                        <path stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <div class="info">
+                        <p><strong>open_gap_score</strong> sets the penalty for opening a gap in the alignment.</p>
+                        <p>A more negative value increases the penalty for opening gaps, making gaps less likely. It is
+                            usually a negative number.</p>
+
+                    </div>
+                </div><br>
+
+                <label for="extend_gap_score">extend_gap_score = </label>
+                <input type="number" id="extend_gap_score" name="extend_gap_score" value="-2" step="1" required>
+                <div class="info-container">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                        <path stroke="#333" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <div class="info">
+                        <p><strong>extend_gap_score</strong> sets the penalty for extending an already opened gap.</p>
+                        <p>A more negative value increases the penalty for extending gaps, reducing the number of gap
+                            extensions and encouraging alignments without or with fewer gaps. It is usually a negative
+                            number.</p>
+
+                    </div>
+                </div><br>
+
+            </fieldset>
+            <button type="button" class="submit" onclick="submitSequences()">Align</button>
+        </form>
+
+        <div class="explanation">
+            <button class="question">What is the FASTA format?</button>
+            <div class="answer modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p class="modal-title">What is the FASTA format?</p>
+                    <p>FASTA format is a text-based format representing nucleotide or amino acid
+                        sequences. Each sequence begins with a description line starting with a ">" symbol,
+                        followed by the sequence itself, typically displayed with one letter per amino acid
+                        or nucleotide.</p>
+                    <!-- resource: https://zhanggroup.org/FASTA/-->
+                </div>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <button class="question">How does the alignment work?</button>
+            <div class="answer modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p class="modal-title">How does the alignment work?</p>
+                    <p>The alignment compares the two sequences, identifying matches,
+                        mismatches, and gaps.</p>
+                    <p>
+                        Colours highlight the differences between the sequences:</p>
+                    <ul>
+                        <li><span style="color: red;">Red</span> indicates deletions in the second sequence
+                            (characters missing compared to the first sequence)</li>
+                        <li><span style="color: green;">Green</span> indicates insertions
+                            (extra characters that aren't in the first sequence)</li>
+                        <li><span style="color: blue;">Blue</span> indicates substitutions (characters that are
+                            different between the two sequences)</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="alignmentDiv">
+            <h3 id="alignmentHeading"></h3>
+            <div id="svg-container">
+                <svg id="alignmentD3"></svg>
+            </div>
+        </div>
+
+        <div id="tableDiv">
+        </div>
+        <p>Learn more about how it works: <a href="https://biopython.org/docs/dev/Tutorial/chapter_pairwise.html"
+                target="_blank">Pairwise sequence alignment </a></p>
+    </main>
+    <footer>
+        <div class="footer-info">
+            <p><strong>GenAnalyzer</strong></p>
+            <p></p>
+        </div>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/#tools">Tools</a>
+            <a href="/about">About</a>
+        </div>
+        <p>&copy; 2024 GenAnalyzer. All Rights Reserved.</p>
+    </footer>
+
+    <script src="../static/js/script_modal_box.js"></script>    
+    <script src="../static/js/script_info_container.js"></script>
+    <script src="../static/js/script_aligner.js"></script>
+</body>
+
+</html>

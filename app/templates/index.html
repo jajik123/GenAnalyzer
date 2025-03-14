@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GenAnalyzer</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/images/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="../static/images/favicon.ico">
+
+    <link rel="stylesheet" href="../static/css/normalize.css">
+    <link rel="stylesheet" href="../static/css/main_styles.css">
+    <link rel="stylesheet" href="../static/css/style_index.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h1><a href="/">GenAnalyzer</a></h1>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-link">Tools</a>
+                    <div class="dropdown-content">
+                        <a href="/analyse">Protein Analyzer</a>
+                        <a href="/aligner">Advanced Aligner</a>
+                    </div>
+                </div>
+                <a href="/about">About</a>
+            </div>
+        </nav>
+        <section class="hero" id="hero">
+            <h2>GenAnalyzer</h2>
+            <p>Analyze and explore data efficiently with this powerful tool.</p>
+            <button type="button" onclick="scrollToSection('tools')">Get Started</button>
+        </section>
+    </header>
+
+    <main>
+        <section class="tools" id="tools">
+            <h3>Explore The Tools</h3>
+            <a href="/analyse">
+                <h4>Protein Analyzer</h4>
+            </a>
+            <p>Analyze your protein sequences, uncover mutations, and explore their links to human diseases.</p>
+
+            <h5>1. Find the reference sequence of the protein you want to analyse</h5>
+            <p>Protein Analyzer integrates seamlessly with <a href="https://www.uniprot.org/" target="_blank"
+                    rel="noopener">UniProt</a>, a high-quality, freely accessible database of protein sequences. This
+                ensures you get the most reliable, reviewed, and up-to-date reference data for your analysis.</p>
+
+            <h5>2. Input your sequence</h5>
+            <p>Simply paste or upload your protein sequence and compare it against the reference. Whether you are
+                analyzing experimental data, validating known mutations or exploring novel variations, the intuitive
+                interface allows for quick and accurate sequence submission.</p>
+
+            <h5>3. View the alignment and identify mutations</h5>
+            <p>Using sequence alignment algorithms, the Protein Analyzer compares your sequence to the reference,
+                highlighting similarities and differences. A side-by-side visualization makes it easy to understand how
+                the mutations are identified. Protein Analyzer automatically identifies amino acid substitutions,
+                deletions, or insertions.</p>
+
+            <h5>4. Explore their links to human diseases</h5>
+            <p>This tool integrates with <a href="https://www.ncbi.nlm.nih.gov/clinvar/" target="_blank"
+                    rel="noopener">ClinVar</a>, a widely used public database which stores information about genetic
+                variations and their association with human diseases. By connecting identified mutations to ClinVar,
+                Protein Analyzer provides insights into whether a variation has been previously studied, its potential
+                clinical significance, and any reported links to genetic disorders or diseases like cancer, and
+                inherited syndromes.</p>
+
+            <h5>5. Collect research data</h5>
+            <p>Easily export your analysis in multiple formats for further research or documentation. Whether you're
+                conducting a large-scale study or need to share findings with colleagues, the download feature enables
+                you to continue your research seamlessly.</p>
+
+            <a href="/analyse" class="btn">Try the Protein Analyzer</a>
+
+            <a href="/aligner">
+                <h4>Advanced Sequence Aligner</h4>
+            </a>
+            <p>Want to learn how sequence comparison works or customize the alignment parameters? The Advanced Sequence
+                Aligner allows you to input two sequences and align them efficiently using the powerful Pairwise
+                Sequence Alignment from the Biopython library. Whether you're working with DNA, RNA, or protein
+                sequences, this tool helps you analyze similarities and differences with precision.</p>
+            <h5>1. Customize the alignment parameters</h5>
+            <p>Modify scoring values, gap penalties, and substitution matrices to tailor the alignment to your needs.
+            </p>
+            <h5>2. View the alignment results</h5>
+            <p>View the aligned sequences in an easy-to-interpret format, making it simple to spot mutations,
+                mismatches, and conserved regions.</p>
+            <h5>3. Understand how alignment works </h5>
+            <p>Modify parameters and observe how the alignment changes, helping you learn the principles behind sequence
+                comparison.
+            </p>
+            <p>Perfect for researchers, students, and bioinformatics enthusiasts, this tool provides a flexible way to
+                explore sequence relationships with complete control over the alignment process.</p>
+            <a href="/aligner" class="btn">Try the Advanced Aligner</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-info">
+            <p><strong>GenAnalyzer</strong></p>
+            <p></p>
+        </div>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/#tools">Tools</a>
+            <a href="/about">About</a>
+        </div>
+        <p>&copy; 2024 GenAnalyzer. All Rights Reserved.</p>
+    </footer>
+
+    <script src="../static/js/script_scroll.js"></script>
+
+</body>
+
+</html>
