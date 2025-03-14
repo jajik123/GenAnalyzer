@@ -6,7 +6,7 @@ This project is a web application designed to simplify the analysis of protein s
 
 The web application was developed as a graduate project.
 
-### Protein Analyzer
+### Protein Analyzer 🧬
 
 This tool allows users to compare a protein sequence against its reference sequence, detect mutations, and investigate their associations with human diseases.
 
