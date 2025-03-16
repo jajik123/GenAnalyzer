@@ -4,6 +4,7 @@
 import requests
 
 CLINVAR_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
+API_KEY = "178b218dbd15c8cb1490d1a56c94a2e3fb09"
 
 
 def fetch_clinvar_variant_id(protein_id, variant):
@@ -17,6 +18,7 @@ def fetch_clinvar_variant_id(protein_id, variant):
         "db": "clinvar",
         "term": f"{protein_id}:{variant}",
         "retmode": "json",
+        "api_key": API_KEY,
     }
     try:
         search_response = requests.get(search_url, params=search_params)
@@ -40,7 +42,7 @@ def fetch_clinvar_variant_info(variant_id):
     Returns dictionary containing variant title, classification, and disease associations, or None if an error occurs.
     """
     summary_url = f"{CLINVAR_URL}esummary.fcgi"
-    params = {"db": "clinvar", "id": variant_id, "retmode": "json"}
+    params = {"db": "clinvar", "id": variant_id, "retmode": "json", "api_key": API_KEY}
     try:
         response = requests.get(summary_url, params=params)
         response.raise_for_status()
