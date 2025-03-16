@@ -1,0 +1,125 @@
+/* this CSS is linked only to the index.html */
+
+header {
+    color: white;
+    text-align: center;
+    background: linear-gradient(to bottom, #0e2135, #3b5e6d, #689ba5);
+    height: 100vh;
+}
+
+.dropdown-content {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.hero {
+    padding: 25vh 30px 0;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+    text-align: center;
+    padding-bottom: 2rem;
+}
+
+main {
+    color: #0d2033;
+}
+
+.tools h4 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.tools h5 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #004466;
+}
+
+.tools p {
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.tools a {
+    color: #0d2033;
+    text-decoration: none;
+}
+
+.tools a:hover {
+    text-decoration: underline;
+}
+
+
+/* BUTTON and links that look like button */
+button, .btn {
+    background: linear-gradient(to right, #e18744, #f4b883);
+    color: #0d2033;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.btn {
+    display: inline-block;
+    margin: 1rem 0 3rem 0;
+}
+
+button:hover, a.btn:hover {
+    background:  #e18744;
+    text-decoration: none;
+}
+
+/* VIDEO and IMG */
+iframe {
+    width: 100%; 
+    max-width: 100%; 
+    aspect-ratio: 16/9;  
+}
+img {
+    width: 100%; 
+    max-width: 500px;
+    display: block;
+    margin: 0 auto; 
+}
+
+/* Links in CONTACT */
+.contact-section a {
+    color: #16416c;
+    text-decoration: none;
+}
+
+.contact-section a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* MEDIA QUERIES for larger screens */
+@media screen and (min-width: 1650px) {
+    h2 {
+        font-size: 3rem; 
+    }
+
+    h3, .tools h4 {
+        font-size: 2rem; 
+    }
+
+    .tools h5 {
+        font-size: 1.5rem; 
+    }
+
+    button, .btn {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+    }
+
+    .hero {
+        padding: 30vh 50px 0;
+    }
+}
