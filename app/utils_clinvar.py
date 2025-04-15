@@ -4,7 +4,7 @@
 import requests
 
 CLINVAR_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
-API_KEY = "178b218dbd15c8cb1490d1a56c94a2e3fb09"
+API_KEY = ""
 
 
 def fetch_clinvar_variant_id(protein_id, variant):
