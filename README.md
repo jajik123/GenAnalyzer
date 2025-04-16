@@ -4,15 +4,22 @@
 
 GenAnalyzer is a web application developed using Flask, designed to simplify the analysis of protein sequences, identify mutations, and explore their potential links to genetic diseases. By integrating data from multiple sources, the application allows users to efficiently compare sequences with reference variants, making complex bioinformatics tasks more accessible.
 
+![The app on laptop and mobile phone](app_screenshots/laptop_phone_nobackground.png)
+
 The web application was developed as a graduate project and is available at [GenAnalyzer](https://genanalyzer.pythonanywhere.com/).
 
 ### Protein Analyzer 🧬
 
 This tool allows users to compare a protein sequence against its reference sequence, detect mutations, and investigate their associations with human diseases.
 
+![Table with concrete variants and their associations with human diseases](app_screenshots/disease_association.png)
+
+
 ### Advanced Sequence Aligner
 
 This tool provides a deeper exploration of sequence alignment, offering a visual representation of how sequences are aligned. It utilizes the `Bio.Align.PairwiseAligner` class from the Biopython library to perform sequence alignment, giving the user control over the alignment process.
+
+![Visualization of the alignment using D3.js](app_screenshots/alignment.png)
 
 ### Demo Video
 
