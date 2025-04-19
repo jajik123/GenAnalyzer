@@ -14,6 +14,42 @@ h4 {
     padding-top: 4rem;
 }
 
+.exampleBox {
+    background-color: #f1f7fb;
+    border-left: 4px solid #3a5d6c;
+    padding: 1rem 1.5rem;
+    margin: 2rem 0;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.exampleBox ul {
+    list-style: none;
+}
+
+.exampleBox li {
+    margin: 0.5rem 0;
+}
+
+.exampleBox a {
+    text-decoration: none;
+    color: #3a5d6c;
+    font-family: monospace;
+}
+
+.exampleBox svg{
+    fill: #3a5d6c;
+    vertical-align: middle;
+}
+
+.exampleBox a:hover{
+    color: #17283a;
+}
+
+.exampleBox a:hover svg {
+    fill: #17283a;
+}
+
 /* searchSection  and its protein-containers*/
 
 #searchSection {

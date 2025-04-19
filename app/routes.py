@@ -1,14 +1,16 @@
 # this file stores all the routes
 
 from flask import Blueprint, render_template, request, session, jsonify
-from app.utils_uniprot import get_search_results, get_protein_fasta
-from app.utils_alignment import align_sequences, match_score
-from app.utils_mutations import get_all_mutations
-from app.utils_clinvar import fetch_clinvar_variant_id, fetch_clinvar_variant_info
+from app.uniprot import get_search_results, get_protein_fasta
+from app.alignment import align_sequences, match_score
+from app.mutations import get_all_mutations
+from app.clinvar import fetch_clinvar_variant_id, fetch_clinvar_variant_info
 from app.utils import (
     extract_the_sequence,
     validate_protein_sequence,
     validate_sequences,
+    validate_analyse_input,
+    validate_aligner_input
 )
 
 
@@ -20,9 +22,18 @@ def home():
     return render_template("index.html")
 
 
+@bp.route("/cs")
+def czech_home():
+    return render_template("index_cs.html")
+
+
 @bp.route("/about")
 def about():
     return render_template("about.html")
+
+@bp.route("/about_cs")
+def about_cs():
+    return render_template("about_cs.html")
 
 
 @bp.route("/analyse")
@@ -61,19 +72,13 @@ def search_gene():
 @bp.route("/align_sequence", methods=["POST"])
 def handle_input_sequence():
     data = request.get_json()
-    if not data:
-        return jsonify({"error": "No JSON data received."}), 400
 
-    reference_sequence = data.get("referenceSequence", "").strip()
-    input_sequence = data.get("inputSequence", "").strip()
+    error = validate_analyse_input(data)
+    if error:
+        return jsonify({"error": error}), 400
 
-    if not reference_sequence or not input_sequence:
-        return jsonify({"error": "Sequence and reference sequence are required."}), 400
-
-    input_sequence = extract_the_sequence(input_sequence)
-
-    reference_sequence = reference_sequence.upper()
-    input_sequence = input_sequence.upper()
+    reference_sequence = data.get("referenceSequence", "").strip().upper()
+    input_sequence = extract_the_sequence(data.get("inputSequence", "").strip()).upper()
 
     # ensure the sequence contains only valid amino acids
     if not validate_protein_sequence(input_sequence):
@@ -91,19 +96,19 @@ def handle_input_sequence():
     aligned_input_sequence = str(alignment[1])
     match_percentage = match_score(alignment)
 
-    alignment_data = {
-        "aligned_reference_sequence": aligned_reference_sequence,
-        "aligned_input_sequence": aligned_input_sequence,
-        "match_percentage": match_percentage,
-    }
-
     # store alignment in session
     session["alignment"] = {
         "aligned_reference_sequence": aligned_reference_sequence,
         "aligned_input_sequence": aligned_input_sequence,
     }
 
-    return jsonify(alignment_data)
+    return jsonify(
+        {
+            "aligned_reference_sequence": aligned_reference_sequence,
+            "aligned_input_sequence": aligned_input_sequence,
+            "match_percentage": match_percentage,
+        }
+    )
 
 
 # Route function writes the mutations in the aligned users sequence compared to the aligned reference one
@@ -166,28 +171,25 @@ def find_association():
 @bp.route("/advanced_aligner", methods=["POST"])
 def advanced_aligner():
     data = request.get_json()
-    if not data:
-        return jsonify({"error": "No JSON data received."}), 400
+    error = validate_aligner_input(data)
 
-    sequence1 = data.get("sequence1", "").strip()
-    sequence2 = data.get("sequence2", "").strip()
-    mode = data.get("mode", "").strip()
+    if error:
+        return jsonify({"error": error}), 400
 
-    match_score = data.get("match_score", "")
-    mismatch_score = data.get("mismatch_score", "")
-    open_gap_score = data.get("open_gap_score", "")
-    extend_gap_score = data.get("extend_gap_score", "")
-
-    if not sequence1 or not sequence2:
-        return jsonify({"error": "Two sequences are required."}), 400
-
-    sequence1 = extract_the_sequence(sequence1).upper()
-    sequence2 = extract_the_sequence(sequence2).upper()
+    sequence1 = extract_the_sequence(data.get("sequence1", "").strip()).upper()
+    sequence2 = extract_the_sequence(data.get("sequence2", "").strip()).upper()
 
     # Ensure the sequence contains only valid nucleotides or amino acids
     is_valid, error_message = validate_sequences(sequence1, sequence2)
     if not is_valid:
         return jsonify({"error": error_message}), 400
+
+    # Alignment parameters
+    mode = data.get("mode", "").strip()
+    match_score = data.get("match_score", "")
+    mismatch_score = data.get("mismatch_score", "")
+    open_gap_score = data.get("open_gap_score", "")
+    extend_gap_score = data.get("extend_gap_score", "")
 
     try:
         alignment = align_sequences(

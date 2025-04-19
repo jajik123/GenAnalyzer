@@ -39,7 +39,6 @@ async function submitSequence() {
     if (mutTableDiv) { mutTableDiv.innerHTML = ''; }
     let diseaseAssociationDiv = document.getElementById('diseaseAssociationDiv');
     if (diseaseAssociationDiv) { diseaseAssociationDiv.innerHTML = ''; }
-    document.getElementById('showDiseaseAssociationButton')?.remove();
     // Display a loading message
     const alignmentHeading = document.createElement('h4');
     alignmentHeading.textContent = "Loading...";
@@ -95,10 +94,10 @@ async function submitSequence() {
                 alignmentHeading.textContent = "Aligned sequences";
                 drawAlignment(alignedReferenceSequence, alignedInputSequence); // draw the alignment
                 showMutationExplanation();
-                applyEventListeners(); // this is so the modal woeks
+                applyEventListeners(); // this is so the modal works
                 showLinkToAligner();
                 scrollToElement('alignmentDiv');
-                showMutationsTableButton(); // Show button for mutations table
+                showMutationsTable();
             }
         }
     } catch (error) {
@@ -123,8 +122,8 @@ function drawAlignment(alignedReferenceSequence, alignedInputSequence) {
             formattedAlignedReferenceSequence += `<span style="color: green;">${refChar}</span>`;
             formattedAlignedInputSequence += `<span style="color: green;">${inputChar}</span>`; // Insertion
         } else if (refChar !== inputChar) {
-            formattedAlignedReferenceSequence += `<span style="color: blue;">${refChar}</span>`;
-            formattedAlignedInputSequence += `<span style="color: blue;">${inputChar}</span>`; // Substitution
+            formattedAlignedReferenceSequence += `<span style="color: #4287f5;">${refChar}</span>`;
+            formattedAlignedInputSequence += `<span style="color: #4287f5;">${inputChar}</span>`; // Substitution
         } else {
             formattedAlignedReferenceSequence += refChar;
             formattedAlignedInputSequence += inputChar;
@@ -163,12 +162,6 @@ function drawAlignment(alignedReferenceSequence, alignedInputSequence) {
     alignmentBoxDiv.appendChild(inputPreElement);
 }
 
-/*function showLinkToAligner() {
-    const p = document.createElement("p");
-    p.innerHTML = 'Want to explore how alignment works or customize your own parameters? Try the <a href="/aligner" target="_blank">Advanced Sequence Aligner</a>.';
-    document.getElementById("alignmentDiv").appendChild(p);
-}*/
-
 function showLinkToAligner() {
     const p = document.createElement("p");
     p.innerHTML = 'Want to explore how alignment works or customize your own parameters? Try the <a href="#" id="alignerLink">Advanced Sequence Aligner</a>.';
@@ -203,7 +196,7 @@ function showMutationExplanation() {
 
     const modalTitle = document.createElement('p');
     modalTitle.classList.add('modal-title');
-    modalTitle.textContent = 'Aligned sequences - explanation';
+    modalTitle.textContent = 'Aligned Sequences - Explanation';
 
     const explanationText = document.createElement('p');
     explanationText.innerHTML = `
@@ -231,22 +224,8 @@ function showMutationExplanation() {
     document.getElementById("alignmentDiv").appendChild(explanationDiv);
 }
 
-function showMutationsTableButton() {
-    if (!document.getElementById("showMutationsTableButton")) {
-        const button = document.createElement("button");
-        button.textContent = "View Mutation Table";
-        button.id = "showMutationsTableButton";
-        button.onclick = showMutationsTable;
-
-        document.getElementById("alignmentSection").appendChild(button);
-    }
-}
-
 // Function to display the mutation table
 async function showMutationsTable() {
-    const button = document.getElementById("showMutationsTableButton");
-    if (button) { button.remove(); } //remove the button
-
     const alignmentSection = document.getElementById('alignmentSection');
     let mutTableDiv = document.getElementById('mutTableDiv');
     if (mutTableDiv) { mutTableDiv.innerHTML = ''; } else {
@@ -274,6 +253,7 @@ async function showMutationsTable() {
         if (result.error) {
             console.error("Error from server:", result.error);
         } else {
+            
             mutTableHeading.textContent = "Variants found";
             const mutTableFilter = document.createElement('div');
             mutTableFilter.id = "mutTableFilter";
@@ -282,15 +262,17 @@ async function showMutationsTable() {
             addTypeFilter(result.variants); // Add a filter for variant types (e.g., "all", "substitution", "insertion", etc.)
             addSortButton(result.variants); // Add a button for sorting the variants
             createVariantsTable(result.variants);  // Create and display the variants table with the fetched data
+            showVariantsExplanation();
+            applyEventListeners();
             addDownloadButtons(mutTableDiv, variantsTable, "variants table", downloadVariantsTable);
-            scrollToElement('mutTableDiv');
+            //scrollToElement('mutTableDiv');
 
             // Collect variant types and positions for disease association purposes
             const variantstype = result.variants.map(variant => variant.type);
             const variantspos = result.variants.map(variant => variant.position);
             const hgvsvariants = result.variants.map(variant => variant.hgvs);
 
-            showDiseaseAssociationButton(variantstype, variantspos, hgvsvariants);
+            showDiseaseAssociation(variantstype, variantspos, hgvsvariants);
         }
 
     } catch (error) {
@@ -370,6 +352,51 @@ function parsePosition(pos) {
     if (typeof pos === "number") return pos;
     let match = pos.match(/\d+/); // Find the first number if string
     return match ? parseInt(match[0], 10) : Number.MAX_VALUE; // If there is no number it will be at the bottom of the table (or at the top if descending)
+}
+
+function showVariantsExplanation() {
+    const explanationDiv = document.createElement('div');
+    explanationDiv.classList.add('explanation');
+
+    const questionButton = document.createElement('button');
+    questionButton.classList.add('question');
+    questionButton.textContent = 'Explanation';
+
+    const answerDiv = document.createElement('div');
+    answerDiv.classList.add('answer', 'modal');
+
+    const modalContentDiv = document.createElement('div');
+    modalContentDiv.classList.add('modal-content');
+
+    const closeButton = document.createElement('span');
+    closeButton.classList.add('close');
+    closeButton.textContent = '×';
+
+    const modalTitle = document.createElement('p');
+    modalTitle.classList.add('modal-title');
+    modalTitle.textContent = 'Variants Found Table- Explanation';
+
+    const explanationText = document.createElement('p');
+    explanationText.innerHTML = `
+        This table displays mutations detected in the protein sequence you're analyzing.
+        To explore them more easily, you can filter them by type or sort them based on their location in the protein sequence.<br><br>
+        <strong>Table Columns</strong>
+        <ul>
+        <li><strong>Type</strong> – the kind of mutation (substitution, deletion, insertion, extension)</li>
+        <li><strong>Position</strong> – the amino acid position(s) affected numbered according to the reference sequence</li>
+        <li><strong>Change (one-letter)</strong> – shows the change using one-letter amino acid codes (e.g., <code>M > A</code> for Methionine to Alanine)</li>
+        <li><strong>Change (three-letter)</strong> – same as above, but using full three-letter codes for clarity (e.g., <code>Met > Ala</code>)</li>
+        <li><strong>HGVS</strong> – describes the variant using <a href="https://hgvs-nomenclature.org/stable/">HGVS (Human Genome Variation Society)</a> protein notation, a standardized scientific format (e.g., <code>p.Met1Ala</code>)</li>     
+        </ul>        
+    `;
+
+    modalContentDiv.appendChild(closeButton);
+    modalContentDiv.appendChild(modalTitle);
+    modalContentDiv.appendChild(explanationText);
+    answerDiv.appendChild(modalContentDiv);
+    explanationDiv.appendChild(questionButton);
+    explanationDiv.appendChild(answerDiv);
+    document.getElementById("mutTableDiv").appendChild(explanationDiv);
 }
 
 
@@ -530,22 +557,8 @@ function downloadDiseaseTable(table, delimiter, extension) {
     link.click();
 }
 
-function showDiseaseAssociationButton(variantstype, variantspos, hgvsvariants) {
-    if (!document.getElementById("showDiseaseAssociationButton")) {
-        const button = document.createElement("button");
-        button.textContent = "View Disease Associations";
-        button.id = "showDiseaseAssociationButton";
-
-        button.onclick = () => showDiseaseAssociation(variantstype, variantspos, hgvsvariants);
-
-        document.getElementById("alignmentSection").appendChild(button);
-    }
-}
-
 // This function tries to get the disease associations and displays the results in a table
 async function showDiseaseAssociation(variantstype, variantspos, hgvsvariants) {
-    const button = document.getElementById("showDiseaseAssociationButton");
-    if (button) { button.remove(); }
     const alignmentSection = document.getElementById('alignmentSection');
     let diseaseAssociationDiv = document.getElementById('diseaseAssociationDiv');
     if (diseaseAssociationDiv) { diseaseAssociationDiv.innerHTML = ''; } else {
@@ -626,11 +639,60 @@ async function showDiseaseAssociation(variantstype, variantspos, hgvsvariants) {
     }
     diseaseAssociationHeading.textContent = "Disease associations";
 
+    showAssociationsExplanation();
+    applyEventListeners();
+
     addDiseaseTableKnownFilter(); // filter variants according to Variant identifier
     addDiseaseTableColumnFilter(); // make the user choose which columns to show
     addDownloadButtons(diseaseAssociationDiv, diseaseAssociationTable, "disease associations table", downloadDiseaseTable);
-    scrollToElement('diseaseAssociationDiv');
+    //scrollToElement('diseaseAssociationDiv');
 }
+
+function showAssociationsExplanation() {
+    const explanationDiv = document.createElement('div');
+    explanationDiv.classList.add('explanation');
+
+    const questionButton = document.createElement('button');
+    questionButton.classList.add('question');
+    questionButton.textContent = 'Explanation';
+
+    const answerDiv = document.createElement('div');
+    answerDiv.classList.add('answer', 'modal');
+
+    const modalContentDiv = document.createElement('div');
+    modalContentDiv.classList.add('modal-content');
+
+    const closeButton = document.createElement('span');
+    closeButton.classList.add('close');
+    closeButton.textContent = '×';
+
+    const modalTitle = document.createElement('p');
+    modalTitle.classList.add('modal-title');
+    modalTitle.textContent = 'Disease Associations Table- Explanation';
+
+    const explanationText = document.createElement('p');
+    explanationText.innerHTML = `
+        This table provides information about known disease associations for the protein variants listed. It helps you understand which variants are clinically relevant and how they are classified in the ClinVar databases.
+        Using the controls above the table, you can filter variants by their clinical significance and choose which columns to show or hide.<br><br>
+        <strong>Table Columns</strong>
+        <ul>
+        <li><strong>HGVS</strong> – describes the variant using <a href="https://hgvs-nomenclature.org/stable/">HGVS (Human Genome Variation Society)</a> protein notation, a standardized scientific format (e.g., <code>p.Met1Ala</code>)</li> 
+        <li><strong>Variant identifier</strong> – the full genetic variant notation from ClinVar (a single amino acid change may have multiple known nucleotide variants due to different codons that code for the same amino acid)</li>
+        <li><strong>ClinVar ID</strong> – the unique identifier for the variant in the ClinVar database, linked to its ClinVar entry</li>
+        <li><strong>Significance</strong> – indicates how the variant is classified clinically (e.g., <i>pathogenic</i>, <i>benign</i>, <i>likely benign</i>)</li>
+        <li><strong>Disease Associations</strong> – a list of diseases linked to the variant, as reported in ClinVar</li>
+        </ul>
+    `;
+
+    modalContentDiv.appendChild(closeButton);
+    modalContentDiv.appendChild(modalTitle);
+    modalContentDiv.appendChild(explanationText);
+    answerDiv.appendChild(modalContentDiv);
+    explanationDiv.appendChild(questionButton);
+    explanationDiv.appendChild(answerDiv);
+    document.getElementById("diseaseAssociationDiv").appendChild(explanationDiv);
+}
+
 
 //This function adds a dropdown filter to the page (options: "all", "known", and "not known")
 function addDiseaseTableKnownFilter() {
@@ -704,10 +766,13 @@ function addDiseaseTableColumnFilter() {
         label.style.display = "block";
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
-        checkbox.checked = true; // Default: all columns visible
+        checkbox.checked = !(colName === "Type" || colName === "Position"); // Default: all columns visible
         checkbox.dataset.columnIndex = index;
         // Add event listener to toggle column visibility
         checkbox.addEventListener('change', toggleColumnVisibility); // when changed call the toggleColumnVisibility function
+        if (!checkbox.checked) {
+            toggleColumnVisibility({ target: checkbox });
+        }
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(` ${colName}`));
         dropdownMenu.appendChild(label);

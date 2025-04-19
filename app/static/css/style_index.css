@@ -1,18 +1,37 @@
 /* this CSS is linked only to the index.html */
 
-header {
+.intro {
     color: white;
     text-align: center;
     background: linear-gradient(to bottom, #0e2135, #3b5e6d, #689ba5);
     height: 100vh;
+    min-height: 600px;
+    position: relative;
 }
 
 .dropdown-content {
     background-color: rgba(0, 0, 0, 0);
 }
 
-.hero {
-    padding: 25vh 30px 0;
+.start {
+    padding-top: 20vh;
+    margin: 0 auto;
+    width: min(80%, 800px);
+}
+
+.flag{
+    position: absolute;
+    bottom: 2rem;
+    right: calc(5% + 15px);
+}
+
+
+
+/* MEDIA QUERY for narrow screen */
+@media screen and (max-width: 400px) {
+    .start p{
+        font-size: .9rem;
+    }
 }
 
 h2 {
@@ -79,9 +98,10 @@ button:hover, a.btn:hover {
 iframe {
     width: 100%; 
     max-width: 100%; 
-    aspect-ratio: 16/9;  
+    aspect-ratio: 16/9; 
+    padding-bottom: 5rem;
 }
-img {
+.fullwidth {
     width: 100%; 
     max-width: 500px;
     display: block;

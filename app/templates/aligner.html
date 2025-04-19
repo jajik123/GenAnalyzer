@@ -20,23 +20,24 @@
 </head>
 
 <body>
-    <header>
-        <nav>
-            <h1>
-                <a href="/">GenAnalyzer</a>
-            </h1>
-            <div class="nav-links">
-                <div class="dropdown">
-                    <a href="javascript:void(0);" class="dropdown-link">Tools</a>
-                    <div class="dropdown-content">
-                        <a href="/analyse">Protein Analyzer</a>
-                        <a href="/aligner">Advanced Aligner</a>
-                    </div>
-                </div>
-                <a href="/about">About</a>
-            </div>
-        </nav>
+    <header class="blue-gradient">
+        <div>
+            <h1><a href="/">GenAnalyzer</a></h1>
+            <nav>
+                <ul>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-link">Tools</a>
+                        <div class="dropdown-content">
+                            <a href="analyse">Protein Analyzer</a>
+                            <a href="aligner">Advanced Aligner</a>
+                        </div>
+                    </li>
+                    <li><a href="about">About</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
+
     <main>
         <h2>Advanced Sequence Aligner</h2>
         <p>This tool allows you to input two sequences and align them using the <code>Bio.Align.PairwiseAligner</code>
@@ -72,7 +73,6 @@
                 <select id="mode" name="mode" required>
                     <option value="global" selected>global</option>
                     <option value="local">local</option>
-                    <option value="fogsaa">fogsaa</option>
                 </select>
                 <div class="info-container">
                     <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
@@ -86,9 +86,6 @@
                                 sequences</li>
                             <li><strong>local</strong> - finds the best local subsequence
                                 alignment between the two sequences</li>
-                            <li><strong>fogsaa</strong> - uses the <em>Fast Optimal Global Alignment Algorithm</em>,
-                                which is faster for long alignments between similar sequences but relies on heuristics
-                                and assumptions about match, mismatch, and gap scores.</li>
                         </ul>
 
                         <p>The choice of alignment mode affects how sequences are aligned, whether the entire sequence
@@ -212,19 +209,16 @@
                 target="_blank">Pairwise sequence alignment </a></p>
     </main>
     <footer>
-        <div class="footer-info">
-            <p><strong>GenAnalyzer</strong></p>
-            <p></p>
-        </div>
-        <div class="footer-links">
-            <a href="/">Home</a>
-            <a href="/#tools">Tools</a>
-            <a href="/about">About</a>
-        </div>
-        <p>&copy; 2024 GenAnalyzer. All Rights Reserved.</p>
+        <p><strong>GenAnalyzer</strong></p>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/#tools">Tools</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+        <p class="light">&copy;&nbsp;2025 Yasmin Fazla. All Rights Reserved.</p>
     </footer>
 
-    <script src="../static/js/script_modal_box.js"></script>    
+    <script src="../static/js/script_modal_box.js"></script>
     <script src="../static/js/script_info_container.js"></script>
     <script src="../static/js/script_aligner.js"></script>
 </body>

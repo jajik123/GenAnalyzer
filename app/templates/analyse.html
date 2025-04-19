@@ -17,28 +17,61 @@
 </head>
 
 <body>
-    <header>
-        <nav>
-            <h1>
-                <a href="/">GenAnalyzer</a>
-            </h1>
-            <div class="nav-links">
-                <div class="dropdown">
-                    <a href="javascript:void(0);" class="dropdown-link">Tools</a>
-                    <div class="dropdown-content">
-                        <a href="/analyse">Protein Analyzer</a>
-                        <a href="/aligner">Advanced Aligner</a>
-                    </div>
-                </div>
-                <a href="/about">About</a>
-            </div>
-        </nav>
+    <header class="blue-gradient">
+        <div>
+            <h1><a href="/">GenAnalyzer</a></h1>
+            <nav>
+                <ul>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-link">Tools</a>
+                        <div class="dropdown-content">
+                            <a href="analyse">Protein Analyzer</a>
+                            <a href="aligner">Advanced Aligner</a>
+                        </div>
+                    </li>
+                    <li><a href="about">About</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
+
     <main>
         <h2>Protein Analyzer</h2>
         <div id="aboutTheToolDiv">
             <p>Analyze your protein sequences, uncover mutations, and explore their links to human diseases.</p>
+            <div class="exampleBox">
+                <p><b>Don’t have a protein sequence at hand but still want to try the tool?</b></p>
+                <p>Try one of these examples to see if they contain mutations associated with diseases:</p>
+                <ul>
+                    <li>Presenilin-1 – <a href="../static/files/presenilin1.fasta" download
+                            title="Download FASTA file of presenilin-1">PSN1_HUMAN <svg height="1rem" width="1rem"
+                                viewBox="0 0 512 512" fill="#3a5d6c">
+                                <path class="st0"
+                                    d="M243.591,309.362c3.272,4.317,7.678,6.692,12.409,6.692c4.73,0,9.136-2.376,12.409-6.689l89.594-118.094   c3.348-4.414,4.274-8.692,2.611-12.042c-1.666-3.35-5.631-5.198-11.168-5.198H315.14c-9.288,0-16.844-7.554-16.844-16.84V59.777   c0-11.04-8.983-20.027-20.024-20.027h-44.546c-11.04,0-20.022,8.987-20.022,20.027v97.415c0,9.286-7.556,16.84-16.844,16.84   h-34.305c-5.538,0-9.503,1.848-11.168,5.198c-1.665,3.35-0.738,7.628,2.609,12.046L243.591,309.362z" />
+                                <path class="st0"
+                                    d="M445.218,294.16v111.304H66.782V294.16H0v152.648c0,14.03,11.413,25.443,25.441,25.443h461.118   c14.028,0,25.441-11.413,25.441-25.443V294.16H445.218z" />
+                            </svg></a>
+                    </li>
+                    <li>Insulin – <a href="../static/files/insulin.fasta" download
+                            title="Download FASTA file of insulin">INS_HUMAN <svg height="1rem" width="1rem"
+                                viewBox="0 0 512 512" fill="#3a5d6c">
+                                <path class="st0"
+                                    d="M243.591,309.362c3.272,4.317,7.678,6.692,12.409,6.692c4.73,0,9.136-2.376,12.409-6.689l89.594-118.094   c3.348-4.414,4.274-8.692,2.611-12.042c-1.666-3.35-5.631-5.198-11.168-5.198H315.14c-9.288,0-16.844-7.554-16.844-16.84V59.777   c0-11.04-8.983-20.027-20.024-20.027h-44.546c-11.04,0-20.022,8.987-20.022,20.027v97.415c0,9.286-7.556,16.84-16.844,16.84   h-34.305c-5.538,0-9.503,1.848-11.168,5.198c-1.665,3.35-0.738,7.628,2.609,12.046L243.591,309.362z" />
+                                <path class="st0"
+                                    d="M445.218,294.16v111.304H66.782V294.16H0v152.648c0,14.03,11.413,25.443,25.441,25.443h461.118   c14.028,0,25.441-11.413,25.441-25.443V294.16H445.218z" />
+                            </svg></a></li>
+                    <li>Breast cancer type 1 susceptibility protein – <a href="../static/files/brca1.fasta" download
+                            title="Download FASTA file of BRCA1 protein">BRCA1_HUMAN <svg height="1rem" width="1rem"
+                                viewBox="0 0 512 512" fill="#3a5d6c">
+                                <path class="st0"
+                                    d="M243.591,309.362c3.272,4.317,7.678,6.692,12.409,6.692c4.73,0,9.136-2.376,12.409-6.689l89.594-118.094   c3.348-4.414,4.274-8.692,2.611-12.042c-1.666-3.35-5.631-5.198-11.168-5.198H315.14c-9.288,0-16.844-7.554-16.844-16.84V59.777   c0-11.04-8.983-20.027-20.024-20.027h-44.546c-11.04,0-20.022,8.987-20.022,20.027v97.415c0,9.286-7.556,16.84-16.844,16.84   h-34.305c-5.538,0-9.503,1.848-11.168,5.198c-1.665,3.35-0.738,7.628,2.609,12.046L243.591,309.362z" />
+                                <path class="st0"
+                                    d="M445.218,294.16v111.304H66.782V294.16H0v152.648c0,14.03,11.413,25.443,25.441,25.443h461.118   c14.028,0,25.441-11.413,25.441-25.443V294.16H445.218z" />
+                            </svg></a></li>
+                </ul>
+            </div>
         </div>
+
 
         <section id="searchSection">
             <h3>Find the reference sequence of your protein:</h3>
@@ -50,7 +83,7 @@
 
                 </label>
                 <br>
-                <input type="text" id="gene" name="gene" required>
+                <input type="text" id="gene" name="gene" placeholder="e.g., BRCA1, insulin" required>
                 <button type="submit" class="submit" aria-label="Search for proteins">Search</button>
             </form>
 
@@ -73,7 +106,7 @@
             </div>
 
             <section id="resultSection">
-                <h3 id="resultHeading" style="display: none;"> Results will appear here </h3>
+                <h3 id="resultHeading" style="display: none;">Results will appear here </h3>
                 <div id="filterDiv">
                     <label for="diseaseFilter">Filter by disease involvement:</label>
                     <select id="diseaseFilter" disabled>
@@ -143,16 +176,13 @@
     </main>
 
     <footer>
-        <div class="footer-info">
-            <p><strong>GenAnalyzer</strong></p>
-            <p></p>
-        </div>
-        <div class="footer-links">
-            <a href="/">Home</a>
-            <a href="/#tools">Tools</a>
-            <a href="/about">About</a>
-        </div>
-        <p>&copy; 2024 GenAnalyzer. All Rights Reserved.</p>
+        <p><strong>GenAnalyzer</strong></p>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/#tools">Tools</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+        <p class="light">&copy;&nbsp;2025 Yasmin Fazla. All Rights Reserved.</p>
     </footer>
 
 

@@ -27,16 +27,12 @@ h3 {
 
 /* HEADER */
 
-header {
+.blue-gradient{
     background: linear-gradient(to bottom, #17283a, #3a5d6c);
+    width: 100%;
 }
 
-h1 {
-    color: white;
-    font-size: 1.5rem;
-}
-
-nav {
+header > div{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -45,18 +41,29 @@ nav {
     margin: 0 auto;
 }
 
-nav a {
+h1 {
+    font-size: 1.5rem;
+}
+
+
+header a {
     color: white;
     text-decoration: none;
 }
 
-.nav-links a {
+nav ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+}
+
+nav li a {
+    color: white;
+    text-decoration: none;
     margin: 0 15px;
-    color: white;
-    text-decoration: none;
 }
 
-.nav-links a:hover {
+nav li a:hover {
     color: rgba(255, 255, 255, 0.75);
 }
 
@@ -96,6 +103,7 @@ nav a {
     display: block;
 }
 
+
 /* FOOTER */
 
 footer {
@@ -105,17 +113,24 @@ footer {
     text-align: center;
 }
 
-.footer-links a {
+footer ul{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+footer a {
     margin: 0 15px;
     color: white;
     text-decoration: none;
 }
 
-.footer-links a:hover {
+footer a:hover {
     text-decoration: underline;
 }
 
-footer>p {
+.light {
     color: rgba(255, 255, 255, 0.85);
     font-size: .9rem;
 }
@@ -286,7 +301,7 @@ blockquote {
 }
 
 /* this class is used for form labels that the users doesnt need to see*/
-.visually-hidden {    
+.visually-hidden {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -294,6 +309,12 @@ blockquote {
     padding: 0;
     border: 0;
     overflow: hidden;
+}
+
+.right {    
+    margin: 0;
+    width: 100%;
+    text-align: right;
 }
 
 /* MEDIA QUERIES for larger screens */
