@@ -1,0 +1,79 @@
+/* this CSS is linked only to the aligner.html */
+
+/* FORM */
+form {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgb(224, 224, 224);
+    box-sizing: border-box;
+    margin: .5rem 0 1rem;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: .9rem;
+}
+
+textarea::placeholder {
+    color: #555;
+    font-size: .9rem;
+}
+
+label,
+select,
+input[type="number"] {
+    margin: 8px 0;
+}
+
+/* ALIGNMENT drawing (svg) */
+
+#alignmentHeading {
+    margin-bottom: 0;
+}
+
+#svg-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+/* TABLE */
+
+#tableDiv>h3 {
+    padding-top: 0;
+}
+
+/* INFO boxes next to the alignment parameters in the form */
+
+.info {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    width: 30vw;
+    top: 0;
+    left: 100%;
+}
+
+.info-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* when the screen is small the info-containers do not appear */
+@media screen and (max-width: 750px) {
+    .info-container {
+        display: none;
+    }
+}
