@@ -6,7 +6,7 @@ GenAnalyzer is a web application developed using Flask, designed to simplify the
 
 ![The app on laptop and mobile phone](app_screenshots/laptop_phone_nobackground.png)
 
-The web application was developed as a graduate project and is available at [GenAnalyzer](https://genanalyzer.pythonanywhere.com/).
+This project was developed as both my graduation project and as part of Středoškolská odborná činnost (Students' Professional Activities), and is available at [GenAnalyzer](https://genanalyzer.pythonanywhere.com/).
 
 ### Protein Analyzer 🧬
 
